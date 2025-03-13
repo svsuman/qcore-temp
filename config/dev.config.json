@@ -1,7 +1,7 @@
 {
     "localConfig": {
         "env": "develop",
-        "tag": "@smoke,@abc",
+        "tag": "@smoke,@regression",
         "headed": false,
         "testFile": "./tests/rest/basicSearchQuery.test.js",
         "slack": {

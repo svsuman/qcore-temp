@@ -30,7 +30,7 @@ test.beforeAll(async () => {
 }); 
 
 
-test('Basic Search Query returns relevant results and status code 200 @smoke', async () => {
+test('Basic Search Query returns relevant results and status code 200', async () => {
   // Define the search query  
   const searchQuery = 'software';
   // Make a GET request to the search endpoint with the query parameter  
@@ -56,8 +56,8 @@ test('Basic Search Query returns relevant results and status code 200 @smoke', a
   const responseBody = await res.json();
   console.log(responseBody);
   expect(responseBody.results).toBeDefined();
-  expect(responseBody.results[0].title).toBeNull();
-  expect(responseBody.results.length).toBeLessThanOrEqual(1);
+  expect(responseBody.results[0].title).not.toBeNull();
+  expect(responseBody.results.length).toBeLessThanOrEqual(10);
   // console.log(responseBody)
 
   responseBody.results.forEach((result, index) => {
@@ -68,7 +68,7 @@ test('Basic Search Query returns relevant results and status code 200 @smoke', a
 
 });
 
-test('Basic Search Query with Filter as Book ,Video @abc', async ({ request }) => {
+test('Basic Search Query with Filter as Book ,Video @smoke', async ({ request }) => {
   // Define the search query  
   const searchQuery = 'software development';
   const filters = {
@@ -100,12 +100,12 @@ test('Basic Search Query with Filter as Book ,Video @abc', async ({ request }) =
 
   let responseBody = await res.json();
   expect(responseBody.results).toBeDefined();
-  expect(responseBody.results[0].title).toBeNull();
+  expect(responseBody.results[0].title).not.toBeNull();
   expect(responseBody.results.length).toBeLessThanOrEqual(10);
 
   responseBody.results.forEach((result, index) => {
     // Ensure that the title is not null or undefined  
-    expect(result.title).toBeNull();
+    expect(result.title).not.toBeNull();
     expect(result.title).toBeDefined();
   });
 
@@ -122,7 +122,7 @@ test('Basic Search Query with Filter as Book ,Video @abc', async ({ request }) =
 });
 
   
-test('Search with Invalid Query returns 400 Bad Request or relevant error message @abc', async ({ request }) => {  
+test('Search with Invalid Query returns 400 Bad Request or relevant error message @regression', async ({ request }) => {  
   // Define the invalid search query with special characters  
   const invalidSearchQuery = '@@@###$$$%%%^^^&&&***';  
   
@@ -144,7 +144,7 @@ test('Search with Invalid Query returns 400 Bad Request or relevant error messag
   },envVariables['content-search'], request);
 
   // Assert that the response status is 200  
-  expect([200, 190]).toContain(res.status());
+  expect([200, 206]).toContain(res.status());
   // Assert that the response status is 400 Bad Request  
   
   // Optionally, parse the response body to JSON and validate the error message  
