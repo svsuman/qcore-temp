@@ -1,0 +1,26 @@
+{
+    "localConfig": {
+        "env": "develop",
+        "tag": "@smoke,@abc",
+        "headed": false,
+        "testFile": "./tests/rest/basicSearchQuery.test.js",
+        "slack": {
+            "channels": ["qcore-channel-1", "qcore-channel-1"],
+            "notifyOnFailure": true,
+            "notifyOnSuccess": true
+        },
+        "report": {
+            "outputDir": "test-results",
+            "reporters": [
+                ["list"],
+                ["html", { "open": "never" }],
+                ["junit", { "outputFile": "test-results/junit-report.xml" }],
+                ["allure-playwright"]
+            ]
+        }
+    },
+    "command": {
+        "nodeEnv": "NODE_ENV",
+        "testRunner": "npx playwright test"
+    }
+} 

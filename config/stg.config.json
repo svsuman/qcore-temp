@@ -1,0 +1,17 @@
+{
+    "localConfig": {
+        "env": "stage",
+        "tag": "@regression",
+        "headed": false,
+        "testFile": "tests/api/services/**/*.test.js",
+        "slack": {
+            "channels": ["qa-stage-alerts", "qa-regression"],
+            "notifyOnFailure": true,
+            "notifyOnSuccess": true
+        }
+    },
+    "command": {
+        "nodeEnv": "NODE_ENV",
+        "testRunner": "npx playwright test"
+    }
+}

@@ -1,0 +1,19 @@
+query Search($query: String!, $locale: String, $source: String, $max: Int, $searchMode: SearchModeEnum, $contentTypeFilter: [String], $excludeInternalKbArticles: Boolean, $excludeTopicsFilter: [String]) {
+  search(query: $query, locale: $locale, source: $source, max: $max, searchMode: $searchMode, contentTypeFilter: $contentTypeFilter, excludeInternalKBArticles: $excludeInternalKbArticles, excludeTopicsFilter: $excludeTopicsFilter) {
+    results {
+      score
+      chunkId
+      contentId
+      contentType
+      parentId
+      title
+      chunkPath
+      parentDocPath
+      chunk
+      imageUrl
+      description
+      duration
+      articleUrl
+    }
+  }
+}

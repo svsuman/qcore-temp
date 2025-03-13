@@ -1,0 +1,8 @@
+query RelatedSearchesForSearchQuery($fromRelatedSearches: Boolean, $queryString: String!) {
+  relatedSearchesForSearchQuery(fromRelatedSearches: $fromRelatedSearches, queryString: $queryString) {
+    relatedSearches
+    fromCache
+    queryId
+    
+  }
+}

@@ -1,0 +1,3 @@
+query ExampleQuery($userId: ID) {
+  interests(userId: $userId)
+}

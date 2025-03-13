@@ -1,0 +1,43 @@
+{
+  "name": "Playwrightscratch",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test:develop:headed": "TEST_ENV=develop playwright test --headed",
+    "test:staging:headed": "TEST_ENV=staging playwright test --headed",
+    "test:master:headed": "TEST_ENV=master playwright test --headed",
+    "test:prodEU:headed": "TEST_ENV=productionEU playwright test --headed",
+    "test:prodUS:headed": "TEST_ENV=productionUS playwright test --headed",
+    "HealthCheckDev": "NODE_ENV=develop  npx playwright test --grep @HealthCheck ",
+    "HealthCheckStg": "NODE_ENV=stage  npx playwright test --grep @HealthCheck ",
+    "jenkins-config-template": "npx psl render config/$NODE_ENV.json.template --fromrole true > config/$NODE_ENV.json",
+    "load-secrets-dev": "npx psl render config/develop.json.template --profile develop > config/develop.json",
+    "load-secrets-stg": "npx psl render config/stage.json.template --awsprofile stage > config/stage.json",
+    "test": "node scripts/runTests.js",
+    "test:dev": "node scripts/runTests.js --profile dev",
+    "test:stg": "node scripts/runTests.js --profile stg"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "latest",
+    "@skillsoft-security-chapter/percipiosecretloader": "^3.1.3",
+    "@types/node": "^22.7.0",
+    "@wdio/cli": "^9.1.2",
+    "allure-playwright": "latest",
+    "jest": "^29.7.0",
+    "jest-playwright-preset": "^4.0.0"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.48.2",
+    "@slack/web-api": "^6.13.0",
+    "dotenv": "^16.4.5",
+    "exceljs": "^4.4.0",
+    "jsonpath": "^1.1.1",
+    "jsonpath-plus": "^10.1.0",
+    "load-secrets": "^0.4.0",
+    "nstall": "^0.2.0"
+  }
+}
