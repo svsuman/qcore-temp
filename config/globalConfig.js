@@ -1,3 +1,6 @@
+const path = require('path');
+const defaultConfig = require(path.resolve(__dirname, 'default.config.json'));
+
 const testConfig = {
     // Environment configurations
     env: {
@@ -37,26 +40,7 @@ const testConfig = {
     },
 
     // Default test configuration
-    defaultConfig: {
-        env: 'stage',
-        tag: '@xyz',  // Empty string means use tags from testConfig.execution.tags
-        headed: false,
-        testFile: '',
-        testCategory: "backend",
-        slack: {
-            channels: ["qcore-channel-1"],
-            notifyOnFailure: true,
-            notifyOnSuccess: true
-        },
-        report: {
-            outputDir: "test-results",
-            reporters: [
-                ["list"],
-                ["html", { "open": "never" }],
-                ["junit", { "outputFile": "test-results/junit-report.xml" }]
-            ]
-        }
-    }
+    defaultConfig
 };
 
 // Helper functions

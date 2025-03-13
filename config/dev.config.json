@@ -3,7 +3,7 @@
         "env": "develop",
         "tag": "@smoke,@regression",
         "headed": false,
-        "testFile": "./tests/rest/basicSearchQuery.test.js",
+        "testFile": "./tests/**/*.test.js",
         "slack": {
             "channels": ["qcore-channel-1", "qcore-channel-1"],
             "notifyOnFailure": true,
