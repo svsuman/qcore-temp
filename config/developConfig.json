@@ -1,16 +1,16 @@
 {
     "services": {
         "content-search": {
-            "basicUser": "ping",
-            "basicPassword": "Pong321!",
+            "basicUser": "${secrets.getValue('org.content-search-username-awsdev')}",
+            "basicPassword": "${secrets.getValue('org.content-search-password-awsdev')}",
             "url": "https://content-search.develop.squads-dev.com",
-            "token": "cGluZzpQb25nMzIxIQ=="
+            "token": "${secrets.getValue('org.content-search-token-awsdev')}"
         },
         "organizations-api": {
-            "basicUser": "ping",
-            "basicPassword": "Pong321!",
+            "basicUser": "${secrets.getValue('org.organizations-api-username-awsdev')}",
+            "basicPassword": "${secrets.getValue('org.organizations-api-password-awsdev')}",
             "url": "https://organization-api.develop.squads-dev.com/",
-            "token": "cGluZzpQb25nMzIxIQ=="
+            "token": "${secrets.getValue('org.organizations-api-token-awsdev')}"
         }
     },
     "AdminUserUuid": "37763d08-ce66-4b8f-a40b-f1b7f1338ca6",

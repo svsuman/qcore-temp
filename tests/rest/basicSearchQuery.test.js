@@ -12,7 +12,7 @@ let licensePoolIds=null;
 
 test.beforeAll(async () => {  
   envVariables = APIClient.getEnvVariables();  
-  const orgV2ServiceConfig = envVariables['organizations-api'];  
+  const orgV2ServiceConfig = envVariables.services['organizations-api'];  
   // Initialize the API client instance without specific service details  
   apiClientInstance = new APIClient();    
   const endpoint = `/api/organizations/${envVariables.organizationUuid}/users/${envVariables.AdminUserUuid}/license-ids`;  
@@ -39,7 +39,7 @@ test('Basic Search Query returns relevant results and status code 200', async ()
       q: searchQuery, // the search query  
       locale: 'en-US', // assuming 'en' is a supported locale  
       ignoreCountryCode: true,
-       licensePoolUuids: licensePoolIds,
+      licensePoolUuids: licensePoolIds,
       includeEnglish: false,
       userUuid: envVariables.AdminUserUuid,
       organizationUuid: envVariables.organizationUuid,
@@ -48,24 +48,19 @@ test('Basic Search Query returns relevant results and status code 200', async ()
       fromRelatedSearch: false,
       getSearchQuery: false
     },
-  },envVariables['content-search']);
-
-  // Assert that the response status is 200  
- 
+  }, envVariables.services['content-search']);
 
   const responseBody = await res.json();
   console.log(responseBody);
   expect(responseBody.results).toBeDefined();
   expect(responseBody.results[0].title).not.toBeNull();
   expect(responseBody.results.length).toBeLessThanOrEqual(10);
-  // console.log(responseBody)
 
   responseBody.results.forEach((result, index) => {
     // Ensure that the title is not null or undefined  
     expect(result.title).not.toBeNull();
     expect(result.title).toBeDefined();
   });
-
 });
 
 test('Basic Search Query with Filter as Book ,Video @smoke', async ({ request }) => {
@@ -92,11 +87,10 @@ test('Basic Search Query with Filter as Book ,Video @smoke', async ({ request })
       fromRelatedSearch: false,
       getSearchQuery: false
     },
-  },envVariables['content-search'], request);
+  }, envVariables.services['content-search']);
 
   // Assert that the response status is 200  
   expect([200, 206]).toContain(res.status());
-
 
   let responseBody = await res.json();
   expect(responseBody.results).toBeDefined();
@@ -117,8 +111,6 @@ test('Basic Search Query with Filter as Book ,Video @smoke', async ({ request })
     // Expect the category to be either 'Book' or 'Video'  
     expect(['Book', 'Video']).toContain(category);
   });
-
-
 });
 
   
@@ -141,14 +133,11 @@ test('Search with Invalid Query returns 400 Bad Request or relevant error messag
       fromRelatedSearch: false,
       getSearchQuery: false
     },
-  },envVariables['content-search'], request);
+  }, envVariables.services['content-search']);
 
   // Assert that the response status is 200  
   expect([200, 206]).toContain(res.status());
-  // Assert that the response status is 400 Bad Request  
   
-  // Optionally, parse the response body to JSON and validate the error message  
   const responseBody = await res.json();  
-
   expect(responseBody.results).toHaveLength(0); 
-});  
+});
