@@ -12,8 +12,8 @@
     "HealthCheckDev": "NODE_ENV=develop  npx playwright test --grep @HealthCheck ",
     "HealthCheckStg": "NODE_ENV=stage  npx playwright test --grep @HealthCheck ",
     "jenkins-config-template": "npx psl render config/$NODE_ENV.json.template --fromrole true > config/$NODE_ENV.json",
-    "load-secrets-dev": "npx psl render config/developConfig.json --profile develop > config/develop.json",
-    "load-secrets-stg": "npx psl render config/stageConfig.json --awsprofile stage > config/stage.json",
+    "load-secrets-dev": "npx psl render config/develop.config.json --profile develop > config/develop.json",
+    "load-secrets-stg": "npx psl render config/stage.config.json --awsprofile stage > config/stage.json",
     "test": "node scripts/runTests.js",
     "test:dev": "node scripts/runTests.js --profile dev",
     "test:stg": "node scripts/runTests.js --profile stg"

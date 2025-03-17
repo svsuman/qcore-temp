@@ -133,3 +133,11 @@ node_modules
 node_modules
 node_modules
 node_modules
+
+#config files
+.config/develop.json
+.config/stage.json
+.config/master.json
+.config/productionEU.json
+.config/productionUS.json
+.config/production.json
