@@ -1,6 +1,6 @@
 {
     "env": "stage",
-    "tag": "@xyz",
+    "tag": "@smoke",
     "headed": false,
     "testFile": "",
     "testCategory": "backend",
