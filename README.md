@@ -12,3 +12,6 @@
    - `SLACK_BOT_TOKEN_2`: Token for second Slack channel
 
 Note: Never commit the `.env` file with real tokens.
+
+
+npm install crypto-js

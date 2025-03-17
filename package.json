@@ -16,7 +16,10 @@
     "load-secrets-stg": "npx psl render config/stage.config.json --awsprofile stage > config/stage.json",
     "test": "node scripts/runTests.js",
     "test:dev": "node scripts/runTests.js --profile develop",
-    "test:stg": "node scripts/runTests.js --profile stage"
+    "test:stg": "node scripts/runTests.js --profile stage",
+    "setup": "npm run generate-key && node scripts/setup.js",
+    "pretest": "npm run setup",
+    "generate-key": "node scripts/generateKey.js"
   },
   "keywords": [],
   "author": "",
@@ -33,6 +36,7 @@
   "dependencies": {
     "@playwright/test": "^1.48.2",
     "@slack/web-api": "^6.13.0",
+    "crypto-js": "^4.2.0",
     "dotenv": "^16.4.5",
     "exceljs": "^4.4.0",
     "jsonpath": "^1.1.1",

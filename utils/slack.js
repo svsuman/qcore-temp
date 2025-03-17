@@ -1,4 +1,5 @@
 const { WebClient } = require('@slack/web-api');
+const { decrypt } = require('./crypto');
 
 // Initialize Slack clients with tokens
 const getSlackClient = (channelName) => {
@@ -8,12 +9,14 @@ const getSlackClient = (channelName) => {
         // Add more channel-token mappings as needed
     };
 
-    const token = tokenMap[channelName];
-    if (!token) {
+    const encryptedToken = tokenMap[channelName];
+    if (!encryptedToken) {
         console.error(`No token found for channel: ${channelName}`);
         return null;
     }
 
+    // Decrypt the token before using it
+    const token = decrypt(encryptedToken);
     return new WebClient(token);
 };
 
