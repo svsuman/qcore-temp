@@ -15,8 +15,8 @@
     "load-secrets-dev": "npx psl render config/develop.config.json --profile develop > config/develop.json",
     "load-secrets-stg": "npx psl render config/stage.config.json --awsprofile stage > config/stage.json",
     "test": "node scripts/runTests.js",
-    "test:dev": "node scripts/runTests.js --profile dev",
-    "test:stg": "node scripts/runTests.js --profile stg"
+    "test:dev": "node scripts/runTests.js --profile develop",
+    "test:stg": "node scripts/runTests.js --profile stage"
   },
   "keywords": [],
   "author": "",

@@ -1,0 +1,97 @@
+{
+    "services":{
+        "content-search":{
+           "basicUser":"content-search-app",
+           "basicPassword":"gUtXaLpaegR23TNFCxwN",
+           "url":"https://use1-stage-content-search.stage.percipio.com/api-docs",
+           "token":"Y29udGVudC1zZWFyY2gtYXBwOmdVdFhhTHBhZWdSMjNUTkZDeHdO"
+       },
+       "ai-cf-recommendation":{
+           "basicUser":"ai-cf-rec-admin",
+           "basicPassword":"U4kAbeDqrg2h3bQ7N7QH",
+           "url":"https://use1-stage-ai-cf-recommendation.stage.percipio.com/",
+           "token":"YWktY2YtcmVjLWFkbWluOlU0a0FiZURxcmcyaDNiUTdON1FI"
+       },
+        "vector-db-worker":{
+           "basicUser":"vectordb-controller",
+           "basicPassword":"DEVOPS-10721-had-to-be-changed",
+           "url":"https://vectordb-worker.stage.percipio.com/graphql",
+           "token":"UNKNOWN_VARIABLE_KEY"
+        },
+        "vector-db-controller":{
+           "basicUser":"vectordb-controller",
+           "basicPassword":"DEVOPS-10721-had-to-be-changed",
+           "url":"https://vectordb-controller.stage.percipio.com/graphql",
+           "token":"UNKNOWN_VARIABLE_KEY"
+        },
+        "content-vectors":{
+           "basicUser":"contentvectoradmin",
+           "basicPassword":"juBL9cRf8KvVxi0Rq4rp",
+           "url":"https://content-vectors.stage.percipio.com",
+           "token":"Y29udGVudHZlY3RvcmFkbWluOmp1Qkw5Y1JmOEt2VnhpMFJxNHJw"
+        },
+        "popular-channels":{
+           "basicUser":"popularchannelsadmin",
+           "basicPassword":"ZmXWlT4zIk8ZCBpeTpO0",
+           "url":"https://use1-stage-popular-channels.stage.percipio.com/",
+           "token":"cG9wdWxhcmNoYW5uZWxzYWRtaW46Wm1YV2xUNHpJazhaQ0JwZVRwTzA="
+        },
+        "search-ai":{
+           "basicUser":"aigptadmin",
+           "basicPassword":"B3VwWpdQPAnpEW6cAZ7v",
+           "url":"https://use1-stage-search-ai.stage.percipio.com",
+           "token":"YWlncHRhZG1pbjpCM1Z3V3BkUVBBbnBFVzZjQVo3dg=="
+        },
+        "assessment-recommendations":{
+           "basicUser":"assessment-recommendations-admin",
+           "basicPassword":"2rjUgrPMSWT8mvRtw9eD",
+           "url":"https://use1-stage-assessment-recommendations.stage.percipio.com/",
+           "token":"YXNzZXNzbWVudC1yZWNvbW1lbmRhdGlvbnMtYWRtaW46MnJqVWdyUE1TV1Q4bXZSdHc5ZUQ="
+        },
+         "recommendations":{
+           "basicUser":"provisioningadmin",
+           "basicPassword":"pPSnltZnq1Pf50ec6mWC",
+           "url":"https://use1-stage-recommendations.stage.percipio.com/",
+           "token":"cHJvdmlzaW9uaW5nYWRtaW46cFBTbmx0Wm5xMVBmNTBlYzZtV0M="
+        },
+        "organizations-api":{
+           "basicUser":"organizations-api-admin",
+           "basicPassword":"BE4bv5V7jtXpCUM9XRlF",
+           "url":"https://organization-api.stage.percipio.com/",
+           "token":"b3JnYW5pemF0aW9ucy1hcGktYWRtaW46QkU0YnY1VjdqdFhwQ1VNOVhSbEY="
+        },
+         "content-vectors-indexing":{
+           "basicUser":"content_vectors_indexing_service",
+           "basicPassword":"WZHjznWWnMYeuF7s",
+           "url":"https://content-vectors-indexing.stage.percipio.com",
+           "token":"UNKNOWN_VARIABLE_KEY"
+        },
+         "interests":{
+           "basicUser":"interestsadmin",
+           "basicPassword":"mdKkrT7cGTYY4d692PQg",
+           "url":"https://interests.stage.percipio.com",
+           "jwt":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ4LXNjb3BlcyI6WyJpbnRlcmVzdHM6bW9kaWZ5IiwiaW50ZXJlc3RzOnJlYWQiXSwiZXhwIjoyNDg3OTk5MjA3fQ.UxuRryz8uHQcYBpaA8e_M46PSnP_O1ALowaWQWEkhUU",
+           "token":"aW50ZXJlc3RzYWRtaW46bWRLa3JUN2NHVFlZNGQ2OTJQUWc="
+        }
+      },
+      "AdminUserUuid": "c2e98a12-f4e3-4e9f-a123-62523575a86a",
+      "organizationUuid": "feca553c-3036-4505-87cb-9a8ac0e3801b",
+   
+    
+    "localConfig": {
+        "env": "stage",
+        "tag": "@regression",
+        "headed": false,
+        "testFile": "tests/api/services/**/*.test.js",
+        "slack": {
+            "channels": ["qa-stage-alerts", "qa-regression"],
+            "notifyOnFailure": true,
+            "notifyOnSuccess": true
+        }
+    },
+    "command": {
+        "nodeEnv": "NODE_ENV",
+        "testRunner": "npx playwright test"
+    }
+}
+
