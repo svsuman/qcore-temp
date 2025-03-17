@@ -14,7 +14,7 @@ const getProfileName = () => {
 };
 
 // Load configurations
-const globalConfig = require('../config/globalConfig');
+const globalConfig = require('../globalConfig');
 const profileName = getProfileName();
 let profileConfig;
 

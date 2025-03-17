@@ -1,5 +1,5 @@
 const path = require('path');
-const defaultConfig = require(path.resolve(__dirname, 'default.config.json'));
+const defaultConfig = require(path.resolve(__dirname, 'config', 'default.config.json'));
 
 const testConfig = {
     // Environment configurations
