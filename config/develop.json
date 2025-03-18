@@ -1,7 +1,7 @@
 {
     "localConfig": {
         "env": "develop",
-        "tag": "@smoke",
+        "tag": "@graphQL",
         "headed": false,
         "testFile": "./tests/**/*.test.js",
         "testCategory": "backend",

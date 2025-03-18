@@ -18,3 +18,5 @@ npm install crypto-js
 
 aws sso login --profile develop
 npm run load-secrets-dev
+npm run generate-key  
+npm run setup
