@@ -1,0 +1,141 @@
+query search($query: String!, $source: String, $locale: String, $ignoreCountryCode: Boolean, $includeEnglish: Boolean, $entitlement: [String], $sessionId: String, $includeContentNotInChannel: Boolean, $pagination: PaginationInput, $filters: FiltersInput, $sortBy: SortByEnum, $viewParams: [ViewParamInput], $areaType: String, $searchMode: SearchModeEnum, $searchType: String, $jobRole: String, $isNew: Int, $organizationName: String, $searchVersion: SearchVersionEnum) {
+  search(
+    query: $query
+    pagination: $pagination
+    locale: $locale
+    ignoreCountryCode: $ignoreCountryCode
+    source: $source
+    entitlement: $entitlement
+    sessionId: $sessionId
+    searchVersion: $searchVersion
+    includeContentNotInChannel: $includeContentNotInChannel
+    filters: $filters
+    sortBy: $sortBy
+    areaType: $areaType
+    viewParams: $viewParams
+    searchMode: $searchMode
+    jobRole: $jobRole
+    searchType: $searchType
+    includeEnglish: $includeEnglish
+    isNew: $isNew
+    organizationName: $organizationName
+  ) {
+    results {
+      by
+      category
+      contentType
+      contentId: contentUuid
+      courseId: courseUuid
+      description
+      duration
+      expertiseLevel
+      expertiseLevels
+      imageUrl
+      imageAltText
+      modalities
+      providerContext
+      publishDate
+      bestChapterRef
+      bestChapterTitle
+      sourceName
+      technologyTitle
+      technologyVersion
+      title
+      complianceCourse
+      url
+      isNew
+      lastPublishDate
+      launchSource
+      containedInChannels {
+        channelId: channelUuid
+        title
+        category
+        __typename
+      }
+      form
+      languageCode
+      locale
+      minResolution
+      launchTarget
+      certificationExam
+      parent {
+        title
+        type
+        id: uuid
+        __typename
+      }
+      trackingMethod
+      launchAndTrack {
+        tracking
+        launchContext
+        ota
+        trackOnClose
+        partnerName
+        __typename
+      }
+      score
+      plannedRetirementDate
+      startDateAndTimeUtc
+      endDateAndTimeUtc
+      __typename
+    }
+    resultCount
+    availableFilters {
+      modalities {
+        read
+        watch
+        listen
+        practice
+        __typename
+      }
+      categoryCounts {
+        categoryName: category
+        categoryCount: count
+        __typename
+      }
+      credentialCounts {
+        credentialName: credential
+        credentialCount: count
+        __typename
+      }
+      expertiseLevelCounts {
+        count
+        expertiseLevel
+        __typename
+      }
+      durationRangesCounts {
+        range
+        count
+        __typename
+      }
+      sourceCounts {
+        source
+        count
+        __typename
+      }
+      subjectCounts {
+        subjectUuid
+        count
+        __typename
+      }
+      subtitlesCounts {
+        subtitle
+        count
+        __typename
+      }
+      languagesCounts {
+        locale
+        count
+        __typename
+      }
+      ratingsCounts {
+        starRating
+        count
+        __typename
+      }
+      __typename
+    }
+    searchId
+    __typename
+  }
+}

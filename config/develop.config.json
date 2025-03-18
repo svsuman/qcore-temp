@@ -1,25 +1,7 @@
 {
-    "services": {
-        "content-search": {
-            "basicUser": "${secrets.getValue('org.content-search-username-awsdev')}",
-            "basicPassword": "${secrets.getValue('org.content-search-password-awsdev')}",
-            "url": "https://content-search.develop.squads-dev.com",
-            "token": "${secrets.getValue('org.content-search-token-awsdev')}"
-        },
-        "organizations-api": {
-            "basicUser": "${secrets.getValue('org.organizations-api-username-awsdev')}",
-            "basicPassword": "${secrets.getValue('org.organizations-api-password-awsdev')}",
-            "url": "https://organization-api.develop.squads-dev.com/",
-            "token": "${secrets.getValue('org.organizations-api-token-awsdev')}"
-        }
-    },
-    "AdminUserUuid": "37763d08-ce66-4b8f-a40b-f1b7f1338ca6",
-    "organizationUuid": "eac91868-39fd-4002-bc3b-f33cdf246fef",
-    
-
     "localConfig": {
         "env": "develop",
-        "tag": "@smoke",
+        "tag": "@graphQL",
         "headed": false,
         "testFile": "./tests/**/*.test.js",
         "testCategory": "backend",
@@ -49,5 +31,101 @@
     "command": {
         "nodeEnv": "NODE_ENV",
         "testRunner": "npx playwright test"
-    }
+    },
+
+    "services": {
+        "content-search":{
+            "basicUser":"${secrets.getValue('org.content-search-username-awsdev')}",
+            "basicPassword":"${secrets.getValue('org.content-search-password-awsdev')}",
+            "url":"https://content-search.develop.squads-dev.com",
+            "token":"${secrets.getValue('org.content-search-token-awsdev')}"
+        },
+      "ai-cf-recommendation":{
+            "basicUser":"${secrets.getValue('org.ai-cf-recommendation-username-awsdev')}",
+            "basicPassword":"${secrets.getValue('org.ai-cf-recommendation-password-awsdev')}",
+            "url":"https://ai-cf-recommendation.develop.squads-dev.com/",
+            "token":"${secrets.getValue('org.ai-cf-recommendation-token-awsdev')}"
+        },
+        "vector-db-controller":{
+            "basicUser":"${secrets.getValue('org.vectordb-controller-username-awsdev')}",
+            "basicPassword":"${secrets.getValue('org.vectordb-controller-password-awsdev')}",
+            "url":"https://vectordb-controller.develop.squads-dev.com/graphql",
+            "token":"${secrets.getValue('org.vectordb-controller-token-awsdev')}"
+         },
+          "vector-db-worker":{
+            "basicUser":"${secrets.getValue('org.vectordb-controller-username-awsdev')}",
+            "basicPassword":"${secrets.getValue('org.vectordb-controller-password-awsdev')}",
+            "url":"https://vectordb-worker.develop.squads-dev.com/graphql",
+            "token":"${secrets.getValue('org.vectordb-controller-token-awsdev')}"
+         },
+         "content-vectors":{
+            "basicUser":"${secrets.getValue('org.content-vectors-username-awsdev')}",
+            "basicPassword":"${secrets.getValue('org.content-vectors-password-awsdev')}",
+            "url":"https://content-vectors.develop.squads-dev.com/",
+            "token":"${secrets.getValue('org.content-vectors-token-awsdev')}"
+         },
+         "popular-channels":{
+            "basicUser":"${secrets.getValue('org.popular-channels-username-awsdev')}",
+            "basicPassword":"${secrets.getValue('org.popular-channels-password-awsdev')}",
+            "url":"https://popular-channels.develop.squads-dev.com",
+            "token":"${secrets.getValue('org.popular-channels-token-awsdev')}"
+         },
+         "search-ai":{
+            "basicUser":"${secrets.getValue('org.ai-gpt-qna-username-awsdev')}",
+            "basicPassword":"${secrets.getValue('org.ai-gpt-qna-password-awsdev')}",
+            "url":"https://search-ai.develop.squads-dev.com/",
+            "token":"${secrets.getValue('org.ai-gpt-qna-token-awsdev')}"
+         },
+          "content-vectors-indexing":{
+            "basicUser":"${secrets.getValue('org.content-vectors-indexing-cass-client-username-awsdev')}",
+            "basicPassword":"${secrets.getValue('org.content-vectors-indexing-cass-client-password-awsdev')}",
+            "url":"https://content-vectors-indexing.develop.squads-dev.com",
+            "token":"${secrets.getValue('org.content-vectors-indexing-cass-client-token-awsdev')}"
+         },
+         "interests":{
+            "basicUser":"${secrets.getValue('org.interests-username-awsdev')}",
+            "basicPassword":"${secrets.getValue('org.interests-password-awsdev')}",
+            "url":"https://interests.develop.squads-dev.com",
+            "jwt":"${secrets.getValue('org.interests-jwt-awsdev')}",
+            "token":"${secrets.getValue('org.interests-token-awsdev')}"
+         },
+         "assessment-recommendations":{
+            "basicUser":"${secrets.getValue('org.assessment-recommendations-username-awsdev')}",
+            "basicPassword":"${secrets.getValue('org.assessment-recommendations-password-awsdev')}",
+            "url":"https://assessment-recommendations.develop.squads-dev.com/",
+            "token":"${secrets.getValue('org.assessment-recommendations-token-awsdev')}"
+         },
+          "recommendations":{
+            "basicUser":"${secrets.getValue('org.recommendations-username-awsdev')}",
+            "basicPassword":"${secrets.getValue('org.recommendations-password-awsdev')}",
+            "url":"https://recommendations.develop.squads-dev.com",
+            "token":"${secrets.getValue('org.recommendations-token-awsdev')}"
+         },
+          "organizations-api":{
+            "basicUser":"${secrets.getValue('org.organizations-api-username-awsdev')}",
+            "basicPassword":"${secrets.getValue('org.organizations-api-password-awsdev')}",
+            "url":"https://organization-api.develop.squads-dev.com/",
+            "token":"${secrets.getValue('org.organizations-api-token-awsdev')}"
+         },
+         "content-indexing-es-recommendations":{
+            "basicUser":"${secrets.getValue('org.content-indexing-username-awsdev')}",
+            "basicPassword":"${secrets.getValue('org.content-indexing-password-awsdev')}",
+            "url":"https://content-indexing-es-recommendations.develop.squads-dev.com",
+            "token":"${secrets.getValue('org.content-indexing-token-awsdev')}"
+        },
+        "content-indexing-ucs":{
+            "basicUser":"${secrets.getValue('org.content-indexing-username-awsdev')}",
+            "basicPassword":"${secrets.getValue('org.content-indexing-password-awsdev')}",
+            "url":"https://content-indexing-ucs.develop.squads-dev.com",
+            "token":"${secrets.getValue('org.content-indexing-token-awsdev')}"
+        },
+         "content-indexing-es-search":{
+            "basicUser":"${secrets.getValue('org.content-indexing-username-awsdev')}",
+            "basicPassword":"${secrets.getValue('org.content-indexing-password-awsdev')}",
+            "url":"https://content-indexing-es-search.develop.squads-dev.com",
+            "token":"${secrets.getValue('org.content-indexing-token-awsdev')}"
+        }
+    },
+    "AdminUserUuid": "37763d08-ce66-4b8f-a40b-f1b7f1338ca6",
+    "organizationUuid": "eac91868-39fd-4002-bc3b-f33cdf246fef"
 }

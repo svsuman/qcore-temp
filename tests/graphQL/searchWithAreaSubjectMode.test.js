@@ -1,21 +1,21 @@
 require('dotenv').config({ path: `config/env.${process.env.NODE_ENV}.json` });
 import fs from 'fs';
 import path from 'path';
-
+ 
 // Import the API testing library from Playwright  
 import { test, expect } from "@playwright/test";
 import { JSONPath } from "jsonpath-plus";
 const { APIClient } = require('../../helpers/apiHelpers/APIClient.js');
-
+ 
 let apiClientInstance;
 let envVariables = null;
 let licensePoolIds = null;
 let queryPath, graphqlQuery;
-
-
+ 
+ 
 test.beforeAll(async () => {
   envVariables = APIClient.getEnvVariables();
-  const orgV2ServiceConfig = envVariables['organizations-api'];
+  const orgV2ServiceConfig = envVariables.services['organizations-api'];
   // Initialize the API client instance without specific service details  
   apiClientInstance = new APIClient();
   const endpoint = `/api/organizations/${envVariables.organizationUuid}/users/${envVariables.AdminUserUuid}/license-ids`;
@@ -30,12 +30,13 @@ test.beforeAll(async () => {
     console.error('Failed to fetch license pools. Status:', res.status(), 'Response:', await res.text());
     throw new Error('Failed to fetch license pools');
   }
-  queryPath = path.join(__dirname, '..', '..', '..', '..', 'test-data', 'search.graphql');
+  queryPath = path.join(__dirname, '..', '..', 'test-data', 'search.graphql');
   graphqlQuery = fs.readFileSync(queryPath, 'utf8');
 });
-
-
+ 
+ 
 test('Search with area uuid as query gives 200 resposne @graphQL', async () => {
+ 
   const variables = {
     "query": "22335ad0-dc1e-11e7-9fe8-1b7f5fcc733d",
     "source": "WEB_AREA_LANDING_PAGE",
@@ -54,12 +55,12 @@ test('Search with area uuid as query gives 200 resposne @graphQL', async () => {
     "x-sks-user-id": envVariables.AdminUserUuid,
     "x-sks-org-id": envVariables.organizationUuid
   };
-
+ 
   let res = await apiClientInstance.makePostRequestWithHeaders('/graphql', {
     query: graphqlQuery,
     variables: variables
-  }, envVariables['content-search'], headers);
-
+  }, envVariables.services['content-search'], headers);
+ 
   // Assert that the response status is 200  
   const expectedTitles = [  
     "Building Customer Relationships in a Virtual Environment",  
@@ -81,11 +82,11 @@ test('Search with area uuid as query gives 200 resposne @graphQL', async () => {
      responseTitles.some(responseTitle => responseTitle.includes(expectedTitle))  
    );    
    expect(allExpectedTitlesIncluded).toBe(true);  
-
+ 
 });
-
+ 
 test('Search with french area uuid as query gives 200 resposne', async () => {
-
+ 
   const variables = {
     "query": "22335ad0-dc1e-11e7-9fe8-1b7f5fcc733d",
     "source": "WEB_AREA_LANDING_PAGE",
@@ -104,16 +105,16 @@ test('Search with french area uuid as query gives 200 resposne', async () => {
     "x-sks-user-id": envVariables.AdminUserUuid,
     "x-sks-org-id": envVariables.organizationUuid
   };
-
+ 
   let res = await apiClientInstance.makePostRequestWithHeaders('/graphql', {
     query: graphqlQuery,
     variables: variables
-  }, envVariables['content-search'], headers);
-
+  }, envVariables.services['content-search'], headers);
+ 
   // Assert that the response status is 200  
   const expectedTitles = [  
-    "Contribuer en tant que membre d’équipe virtuelle",  
-    "Maintenir le contact et communiquer au sein de l’équipe",  
+    "Contribuer en tant que membre d'équipe virtuelle",  
+    "Maintenir le contact et communiquer au sein de l'équipe",  
     "Design thinking",  
     "Apprentissage permanent",  
     "Big Data",  
@@ -134,5 +135,6 @@ test('Search with french area uuid as query gives 200 resposne', async () => {
    const allExpectedTitlesIncluded = expectedTitles.every(expectedTitle =>   
      responseTitles.some(responseTitle => responseTitle.includes(expectedTitle))  
    );  
-
+ 
 });
+ 

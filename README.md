@@ -15,3 +15,6 @@ Note: Never commit the `.env` file with real tokens.
 
 
 npm install crypto-js
+
+aws sso login --profile develop
+npm run load-secrets-dev
