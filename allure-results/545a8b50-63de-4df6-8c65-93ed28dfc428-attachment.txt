@@ -1,6 +1,0 @@
-{
-  basicUser: 'ping',
-  basicPassword: 'Pong321!',
-  url: 'https://organization-api.develop.squads-dev.com/',
-  token: 'cGluZzpQb25nMzIxIQ=='
-}
