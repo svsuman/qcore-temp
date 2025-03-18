@@ -142,3 +142,8 @@ node_modules
 .config/productionUS.json
 .config/production.json
 .env
+
+#reports
+test-results/
+allure-results/
+playwright-report/
