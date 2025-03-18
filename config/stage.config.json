@@ -80,19 +80,11 @@
     
     "localConfig": {
         "env": "stage",
-        "tags": {
-            "default": ["@smoke", "@regression"],
-            "priority": {
-                "critical": ["@smoke", "@p1"],
-                "high": ["@regression"],
-                "normal": ["@e2e"]
-            }
-        },
+        "tag": "@regression",
         "headed": false,
-        "testFile": "",
-        "testCategory": "backend",
+       "testFile": "./tests/**/*.test.js",
         "slack": {
-            "channels": ["qcore-channel-1"],
+            "channels": ["qcore-channel-1", "qcore-channel-1"],
             "notifyOnFailure": true,
             "notifyOnSuccess": true
         },
@@ -101,7 +93,8 @@
             "reporters": [
                 ["list"],
                 ["html", { "open": "never" }],
-                ["junit", { "outputFile": "test-results/junit-report.xml" }]
+                ["junit", { "outputFile": "test-results/junit-report.xml" }],
+                ["allure-playwright"]
             ]
         }
     },

@@ -1,12 +1,8 @@
 {
     "env": "stage",
     "tags": {
-        "default": ["@smoke", "@regression", "@e2e"],
-        "priority": {
-            "critical": ["@smoke", "@p1"],
-            "high": ["@regression"],
-            "normal": ["@e2e"]
-        }
+        "all": ["@smoke", "@regression", "@api", "@ui", "@critical"],
+        "default": ["@smoke"]
     },
     "headed": false,
     "testFile": "",
@@ -24,4 +20,4 @@
             ["junit", { "outputFile": "test-results/junit-report.xml" }]
         ]
     }
-}
+} 
