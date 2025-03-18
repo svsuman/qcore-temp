@@ -24,4 +24,4 @@
             ["junit", { "outputFile": "test-results/junit-report.xml" }]
         ]
     }
-} 
+}
