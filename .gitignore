@@ -141,5 +141,4 @@ node_modules
 .config/productionEU.json
 .config/productionUS.json
 .config/production.json
-.env.template
 .env

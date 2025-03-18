@@ -1,0 +1,32 @@
+{
+  basicUser: 'ping',
+  basicPassword: 'Pong321!',
+  url: 'https://organization-api.develop.squads-dev.com/',
+  token: 'cGluZzpQb25nMzIxIQ=='
+}
+[
+  '01aa0935-f3de-497a-bb3c-984739025f9f',
+  'e7d3f1ab-029d-4b16-bc79-0b789a9c5b76',
+  '1847c778-2314-4cb9-8750-f1a0fcb0e191',
+  'ad7d057b-3463-4359-8f79-9b644400af9a',
+  'd0103567-2c80-486e-8830-00095aec3ffc',
+  'a93d2ded-41e2-4cbd-87f5-c48b2375a90e',
+  '59bf89a9-4b48-4e28-bab9-8fd273990427',
+  '4d67a422-1b45-40b5-a96b-cd99310ccf84',
+  'e122fc1c-01c1-484a-99cc-404fdcdff27b',
+  '8b4314bf-56c5-4fc6-8ce0-e82bbe223603',
+  '51ef7f62-e04e-4d79-8b2d-e93618ad8dce',
+  '1ac89b01-f595-4b41-b69c-a3b63ce0f45b',
+  'c7fbab6b-ccfc-476d-b346-767637baaed9',
+  '4b7fe84d-8405-4627-8f2f-62016c65bd3c',
+  'd548a7ab-abbe-49a6-a1ba-7d055e6af10b',
+  'd4459617-15cb-4b40-b5f7-83aa738eec1d',
+  'e2752590-745b-4fe6-bcb9-515be31858ff',
+  'a3560021-827b-4904-a78d-b4d90e848fd2',
+  '2bb5a6ea-303b-4f92-a6cb-86ff70310eda',
+  'e30a6984-a18a-4789-80de-cb03288aad58',
+  '386fdf98-3ed2-4049-a4bc-16d2a741cf46',
+  '6bc15fd2-d314-47dc-99f4-694f9d02ac87',
+  '44fcfd3d-1ecc-4146-97dd-c8e5cd45cfab',
+  '24643aec-1cfe-472c-a0da-21fcfc29346c'
+]

@@ -1,6 +1,13 @@
 {
     "env": "stage",
-    "tag": "@smoke",
+    "tags": {
+        "default": ["@smoke", "@regression", "@e2e"],
+        "priority": {
+            "critical": ["@smoke", "@p1"],
+            "high": ["@regression"],
+            "normal": ["@e2e"]
+        }
+    },
     "headed": false,
     "testFile": "",
     "testCategory": "backend",

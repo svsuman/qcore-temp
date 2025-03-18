@@ -35,7 +35,7 @@ test.beforeAll(async () => {
 });
 
 
-test('Search with area uuid as query gives 200 resposne', async () => {
+test('Search with area uuid as query gives 200 resposne @graphQL', async () => {
   const variables = {
     "query": "22335ad0-dc1e-11e7-9fe8-1b7f5fcc733d",
     "source": "WEB_AREA_LANDING_PAGE",
