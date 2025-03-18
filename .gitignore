@@ -147,3 +147,35 @@ config/production.json
 test-results/
 allure-results/
 playwright-report/
+
+# Environment files
+.env
+.env.*
+!.env.template
+
+
+# Encryption keys
+.encryption_key
+
+# Node modules
+node_modules/
+package-lock.json
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+
+
