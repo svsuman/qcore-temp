@@ -17,7 +17,7 @@
     "test": "node scripts/runTests.js",
     "test:dev": "node scripts/runTests.js --profile develop",
     "test:stg": "node scripts/runTests.js --profile stage",
-    "setup": "npm run generate-key && node scripts/setup.js",
+    "setup": "npm run generate-key && node scripts/setup.js && mkdir -p playwright-report",
     "pretest": "npm run setup",
     "generate-key": "node scripts/generateKey.js"
   },

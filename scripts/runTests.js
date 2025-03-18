@@ -80,43 +80,22 @@ const buildTestCommand = () => {
         command += ' --headed';
     }
 
-    // Add report configurations
+    // Modify the report configuration section
     if (report) {
-        // Set output directory
+        // Set output directory if different from default
         if (report.outputDir) {
             command += ` --output ${report.outputDir}`;
         }
 
-        // Add reporters
-        if (report.reporters && report.reporters.length > 0) {
-            report.reporters.forEach(reporter => {
-                if (Array.isArray(reporter)) {
-                    const [name, options] = reporter;
-                    if (options) {
-                        const optionsStr = Object.entries(options)
-                            .map(([key, value]) => `${key}=${value}`)
-                            .join(',');
-                        command += ` --reporter=${name}${optionsStr ? `=${optionsStr}` : ''}`;
-                    } else {
-                        command += ` --reporter=${name}`;
-                    }
-                } else {
-                    command += ` --reporter=${reporter}`;
-                }
-            });
-        }
-
-        // Configure video recording (using correct option)
+        // Keep video, screenshot and trace configurations
         if (report.videoMode) {
             command += ` --video on-first-retry`;
         }
 
-        // Configure screenshots (using correct option)
         if (report.screenshotMode) {
             command += ` --screenshot only-on-failure`;
         }
 
-        // Configure trace (using correct option)
         if (report.traceMode) {
             command += ` --trace retain-on-failure`;
         }
@@ -127,7 +106,7 @@ const buildTestCommand = () => {
 
 // Execute tests
 const command = buildTestCommand();
-console.log(`Executing: ${command}`);
+console.log('Executing command:', command);
 
 const commandParts = command.split(' ');
 const proc = spawn(commandParts[0], commandParts.slice(1), { shell: true });

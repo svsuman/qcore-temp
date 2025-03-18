@@ -22,7 +22,13 @@ export default defineConfig({
   workers: 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   //reporter: [["html"]],
-  reporter: [['html', { open: 'never' }]],
+  reporter: [
+    ['list'],  // Console reporter for immediate feedback
+    ['html', {
+      outputFolder: 'playwright-report',
+      open: 'never'
+    }]
+  ],
   
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
@@ -31,7 +37,9 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
-    screenshot : "only-on-failure"
+    screenshot : "only-on-failure",
+    // Add video recording on failure
+    video: "retain-on-failure"
   },
 
   /* Configure projects for major browsers */
