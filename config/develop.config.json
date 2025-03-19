@@ -5,6 +5,10 @@
         "headed": false,
         "testFile": "./tests/**/*.test.js",
         "testCategory": "backend",
+        "testCases": {
+            "enabled": true,
+            "includeTags": false
+        },
         "slack": {
             "channels": ["qcore-channel-1"],
             "notifyOnFailure": true,

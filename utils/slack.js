@@ -1,11 +1,13 @@
 const { WebClient } = require('@slack/web-api');
 const { decrypt } = require('./crypto');
+const config = require('../config/develop.config.json');
+const path = require('path');
 
+const SLACK_CHANNEL = config.localConfig.slack.channels;
 // Initialize Slack clients with tokens
 const getSlackClient = (channelName) => {
     const tokenMap = {
-        'qcore-channel-1': process.env.SLACK_BOT_TOKEN_1
-        // 'qcore-channel-2': process.env.SLACK_BOT_TOKEN_2,
+        [config.localConfig.slack.channels[0]]: process.env.SLACK_BOT_TOKEN_1
         // Add more channel-token mappings as needed
     };
 
@@ -20,8 +22,17 @@ const getSlackClient = (channelName) => {
     return new WebClient(token);
 };
 
-// Update the channel name/ID to match your actual Slack channel
-const SLACK_CHANNEL = 'qcore-channel-1'; // Replace with your actual channel name
+// Function to get test type from message
+const getTestType = (message) => {
+    // Look for test file path in the message
+    const filePathMatch = message.match(/tests\/([^/]+)\//);
+    if (filePathMatch) {
+        const folderName = filePathMatch[1];
+        // Capitalize first letter and keep rest lowercase
+        return folderName.charAt(0).toUpperCase() + folderName.slice(1).toLowerCase();
+    }
+    return 'Rest'; // Default fallback
+};
 
 function parseTestResults(message) {
     const results = {
@@ -76,6 +87,7 @@ async function sendToSlack(channels, message, options = {}) {
     const testResults = parseTestResults(message);
     const passPercentage = calculatePassPercentage(testResults);
     const duration = formatDuration(message);
+    const testType = getTestType(message);
     console.log('Parsed test results:', testResults);
 
     // Extract error details if present
@@ -129,7 +141,7 @@ async function sendToSlack(channels, message, options = {}) {
                 },
                 {
                     type: "mrkdwn",
-                    text: "*:mag: Test Type:*\nREST"
+                    text: `*:mag: Test Type:*\n${testType}`
                 }
             ]
         },
@@ -162,7 +174,7 @@ async function sendToSlack(channels, message, options = {}) {
             type: "section",
             text: {
                 type: "mrkdwn",
-                text: "\n📂 Report Path: playwright-report/index.html"
+                 text: `\n📂 Report Path: <file://playwright-report/index.html|playwright-report/index.html>`              
             }
         },
         {
@@ -249,8 +261,29 @@ function formatDetailedReport(message) {
         .map(line => {
             // Extract text between test(' and ', async
             const match = line.match(/test\('([^']+)'/);
-            return match ? match[1] : line;
-        });
+            if (match) {
+                const testName = match[1];
+                // If includeTags is false, remove the tags from the test name
+                if (!config.localConfig.testCases.includeTags) {
+                    return testName.replace(/@\w+/g, '').trim();
+                }
+                return testName;
+            }
+            // Try alternative pattern if first one fails
+            const altMatch = line.match(/test\(['"]([^'"]+)['"]/);
+            if (altMatch) {
+                const testName = altMatch[1];
+                // If includeTags is false, remove the tags from the test name
+                if (!config.localConfig.testCases.includeTags) {
+                    return testName.replace(/@\w+/g, '').trim();
+                }
+                return testName;
+            }
+            return null;
+        })
+        .filter(name => name !== null); // Remove any null values
+    
+    console.log('Extracted test names:', testNames); // Debug log
     
     // Add passed tests with names
     for (let i = 0; i < passed; i++) {
