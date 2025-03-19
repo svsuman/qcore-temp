@@ -23,7 +23,10 @@ npm run setup
 
 
 * To run multiple test cases with different tags, use the below format:
+
 NODE_ENV=develop npx playwright test --grep "@HealthCheck|@Regression|@Smoke"
 
-* To run Test cases having multiple tags and if I have to execute those cases which are having multiple tags and i want to ensure if it has all the tags, then only it should get executed:
+
+
+* To run Test cases having multiple tags and if I have to execute those cases which are having multiple tags and i want to ensure if it has all the tags, then only it should get executed:o
 NODE_ENV=develop npx playwright test --grep "@HealthCheck.*@Regression.*@Smoke"
