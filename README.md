@@ -14,12 +14,18 @@
 Note: Never commit the `.env` file with real tokens.
 
 npm install
+
 npm install crypto-js
 
+
 aws sso login --profile develop
+
 npm run load-secrets-dev
+
 npm run generate-key  
+
 npm run setup
+
 
 
 * To run multiple test cases with different tags, use the below format:
