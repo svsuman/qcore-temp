@@ -30,7 +30,7 @@ test.beforeAll(async () => {
 }); 
 
 
-test('Basic Search Query returns relevant results and status code 200 @@HealthCheck @Regression @Smoke', async () => {
+test('Basic Search Query returns relevant results and status code 200 @HealthCheck @Regression @Smoke', async () => {
   // Define the search query  
   const searchQuery = 'software';
   // Make a GET request to the search endpoint with the query parameter  
