@@ -34,8 +34,12 @@
     "jest-playwright-preset": "^4.0.0"
   },
   "dependencies": {
+    "@aws-sdk/client-sts": "^3.0.0",
     "@playwright/test": "^1.48.2",
     "@slack/web-api": "^6.13.0",
+    "@smithy/core": "^2.0.0",
+    "@smithy/middleware-retry": "^2.0.0",
+    "@smithy/util-stream": "^2.0.0",
     "crypto-js": "^4.2.0",
     "dotenv": "^16.4.5",
     "exceljs": "^4.4.0",
@@ -43,10 +47,6 @@
     "jsonpath-plus": "^10.1.0",
     "load-secrets": "^0.4.0",
     "nstall": "^0.2.0",
-    "@aws-sdk/client-sts": "^3.0.0",
-    "@smithy/util-stream": "^2.0.0",
-    "@smithy/core": "^2.0.0",
-    "uuid": "^9.0.0",
-    "@smithy/middleware-retry": "^2.0.0"
+    "uuid": "^9.0.0"
   }
 }

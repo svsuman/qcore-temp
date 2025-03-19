@@ -30,7 +30,7 @@ test.beforeAll(async () => {
 }); 
 
 
-test('Basic Search Query returns relevant results and status code 200 @regressionß', async () => {
+test('Basic Search Query returns relevant results and status code 200 @@HealthCheck @Regression @Smoke', async () => {
   // Define the search query  
   const searchQuery = 'software';
   // Make a GET request to the search endpoint with the query parameter  
@@ -63,7 +63,7 @@ test('Basic Search Query returns relevant results and status code 200 @regressio
   });
 });
 
-test('Basic Search Query with Filter as Book ,Video @smoke', async ({ request }) => {
+test('Basic Search Query with Filter as Book ,Video @Smoke', async ({ request }) => {
   // Define the search query  
   const searchQuery = 'software development';
   const filters = {
@@ -114,7 +114,7 @@ test('Basic Search Query with Filter as Book ,Video @smoke', async ({ request })
 });
 
   
-test('Search with Invalid Query returns 400 Bad Request or relevant error message @regression', async ({ request }) => {  
+test('Search with Invalid Query returns 400 Bad Request or relevant error message @Regression', async ({ request }) => {  
   // Define the invalid search query with special characters  
   const invalidSearchQuery = '@@@###$$$%%%^^^&&&***';  
   

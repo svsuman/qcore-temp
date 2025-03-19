@@ -27,6 +27,11 @@ export default defineConfig({
     ['html', {
       outputFolder: 'playwright-report',
       open: 'never'
+    }],
+    ['@skillsoft-security-chapter/percipiosecretloader', {
+      channels: ['your-slack-channel'],
+      notifyOnSuccess: true,
+      notifyOnFailure: true
     }]
   ],
   
