@@ -2,6 +2,7 @@ require('dotenv').config();
 const { exec, spawn } = require('child_process');
 const path = require('path');
 const { sendToSlack } = require('../utils/slack');
+const { decrypt } = require('../utils/crypto');
 
 // Get profile from command line arguments
 const getProfileName = () => {
@@ -11,6 +12,16 @@ const getProfileName = () => {
         return args[profileIndex + 1];
     }
     return 'dev'; // default profile
+};
+
+// Get tags from command line arguments
+const getTags = () => {
+    const args = process.argv.slice(2);
+    const grepIndex = args.findIndex(arg => arg.includes('--grep'));
+    if (grepIndex !== -1 && args[grepIndex + 1]) {
+        return args[grepIndex + 1].replace(/"/g, ''); // Remove quotes if present
+    }
+    return null;
 };
 
 // Load configurations
@@ -39,12 +50,13 @@ const sendSlackNotification = async (success, output, error = null) => {
     const { channels, notifyOnSuccess, notifyOnFailure } = finalConfig.slack;
     
     if ((!success && notifyOnFailure) || (success && notifyOnSuccess)) {
+        const tags = getTags() || finalConfig.tag || 'None';
         const message = `
 ${output}
 Environment: ${profileName.toUpperCase()}
 Status: ${success ? 'SUCCESS' : 'FAILURE'}
 Test Files: ${finalConfig.testFile || 'All Tests'}
-Tags: ${finalConfig.tag || 'None'}
+Tags: ${tags}
 Reports:
 • HTML Report: playwright-report/index.html`;
         
@@ -104,34 +116,76 @@ const buildTestCommand = () => {
     return command;
 };
 
-// Execute tests
-const command = buildTestCommand();
-console.log('Executing command:', command);
+// Check if we're running in direct test mode (with --grep)
+const isDirectTestMode = process.argv.some(arg => arg.includes('--grep'));
 
-const commandParts = command.split(' ');
-const proc = spawn(commandParts[0], commandParts.slice(1), { shell: true });
-let testOutput = '';
-
-proc.stdout.on('data', (data) => {
-    const output = data.toString();
-    testOutput += output;
-    process.stdout.write(output);
-});
-
-proc.stderr.on('data', (data) => {
-    const output = data.toString();
-    testOutput += output;
-    process.stderr.write(output);
-});
-
-proc.on('close', async (code) => {
-    const success = code === 0;
+if (isDirectTestMode) {
+    // Direct test mode - execute tests and send Slack notification
+    const args = process.argv.slice(2);
+    const grepIndex = args.findIndex(arg => arg.includes('--grep'));
+    const grepPattern = args[grepIndex + 1];
     
-    if (!success) {
-        console.error(`Process exited with code ${code}`);
-        await sendSlackNotification(false, testOutput, `Process exited with code ${code}`);
-        process.exit(1);
-    }
+    // Build the command with proper quoting
+    const command = `NODE_ENV=${process.env.NODE_ENV} npx playwright test --grep "${grepPattern}"`;
     
-    await sendSlackNotification(true, testOutput);
-}); 
+    console.log('Executing command:', command);
+    
+    const proc = exec(command, { 
+        env: {
+            ...process.env,
+            SLACK_BOT_TOKEN_1: decrypt(process.env.SLACK_BOT_TOKEN_1)
+        }
+    });
+    
+    let testOutput = '';
+    
+    proc.stdout.on('data', (data) => {
+        testOutput += data;
+        console.log(data);
+    });
+    
+    proc.stderr.on('data', (data) => {
+        testOutput += data;
+        console.error(data);
+    });
+    
+    proc.on('close', async (code) => {
+        const success = code === 0;
+        await sendSlackNotification(success, testOutput);
+        process.exit(code);
+    });
+} else {
+    // Normal mode - use existing configuration
+    const command = buildTestCommand();
+    const proc = exec(command, { 
+        env: {
+            ...process.env,
+            SLACK_BOT_TOKEN_1: decrypt(process.env.SLACK_BOT_TOKEN_1),
+            SLACK_BOT_TOKEN_2: decrypt(process.env.SLACK_BOT_TOKEN_2)
+        }
+    });
+    
+    let testOutput = '';
+    
+    proc.stdout.on('data', (data) => {
+        testOutput += data;
+        console.log(data);
+    });
+    
+    proc.stderr.on('data', (data) => {
+        testOutput += data;
+        console.error(data);
+    });
+    
+    proc.on('close', async (code) => {
+        const success = code === 0;
+        
+        if (!success) {
+            console.error(`Process exited with code ${code}`);
+            await sendSlackNotification(false, testOutput, `Process exited with code ${code}`);
+            process.exit(1);
+        }
+        
+        await sendSlackNotification(true, testOutput);
+    });
+} 

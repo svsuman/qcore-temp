@@ -1,0 +1,35 @@
+# Version control
+.git
+.gitignore
+
+# Dependencies
+node_modules
+npm-debug.log
+
+# Test results and reports
+test-results
+playwright-report
+allure-results
+
+# Environment files
+.env
+.env.*
+
+# IDE files
+.vscode
+.idea
+
+# AWS credentials
+.aws
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Jenkins files
+Jenkinsfile
+
+# Keep config files
+!config/*.json
+!config/*.config.json

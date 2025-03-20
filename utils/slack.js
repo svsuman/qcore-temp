@@ -4,8 +4,8 @@ const { decrypt } = require('./crypto');
 // Initialize Slack clients with tokens
 const getSlackClient = (channelName) => {
     const tokenMap = {
-        'qcore-channel-1': process.env.SLACK_BOT_TOKEN_1,
-        'qcore-channel-2': process.env.SLACK_BOT_TOKEN_2,
+        'qcore-channel-1': process.env.SLACK_BOT_TOKEN_1
+        // 'qcore-channel-2': process.env.SLACK_BOT_TOKEN_2,
         // Add more channel-token mappings as needed
     };
 
@@ -223,35 +223,15 @@ function getTestStatusMessage(testResults) {
     const { passed, failed, skipped, total } = testResults;
     
     if (failed === 0 && skipped === 0 && passed > 0) {
-        return "✅ All Tests Passed:\n" +
-               `• 📊 Total Tests: ${total}\n` +
-               `• ✅ Passed: ${total}\n` +
-               `• ❌ Failed: 0\n` +
-               `• 😴 Skipped: 0`;
+        return "✅ All Tests Passed:\n"
     } else if (failed > 0 && passed === 0 && skipped === 0) {
-        return "❌ All Tests Failed:\n" +
-               `• 📊 Total Tests: ${total}\n` +
-               `• ✅ Passed: 0\n` +
-               `• ❌ Failed: ${total}\n` +
-               `• 😴 Skipped: 0`;
+        return "❌ All Tests Failed:\n" 
     } else if ((passed > 0 || failed > 0) && skipped > 0) {
-        return "🔄 Partial Success: Some Tests Skipped/Failed!\n" +
-               `• 📊 Total Tests: ${total}\n` +
-               `• ✅ Passed: ${passed}\n` +
-               `• ❌ Failed: ${failed}\n` +
-               `• 😴 Skipped: ${skipped}`;
+        return "🔄 Partial Success: Some Tests Skipped/Failed!\n" 
     } else if (failed > 0 && passed > 0) {
-        return "❌ Some Tests Failed:\n" +
-               `• 📊 Total Tests: ${total}\n` +
-               `• ✅ Passed: ${passed}\n` +
-               `• ❌ Failed: ${failed}\n` +
-               `• 😴 Skipped: 0`;
+        return "❌ Some Tests Failed:\n" 
     } else if (skipped > 0 && passed === 0 && failed === 0) {
-        return "😴 All Tests Skipped:\n" +
-               `• 📊 Total Tests: ${total}\n` +
-               `• ✅ Passed: 0\n` +
-               `• ❌ Failed: 0\n` +
-               `• 😴 Skipped: ${total}`;
+        return "😴 All Tests Skipped:\n" 
     }
     
     return "📢 Test Execution Complete";
@@ -263,21 +243,33 @@ function formatDetailedReport(message) {
     const { passed, failed, skipped } = parseTestResults(message);
     let testCount = 1;
     
-    // Add passed tests
+    // Extract test names from the message
+    const testNames = lines
+        .filter(line => line.includes('test('))
+        .map(line => {
+            // Extract text between test(' and ', async
+            const match = line.match(/test\('([^']+)'/);
+            return match ? match[1] : line;
+        });
+    
+    // Add passed tests with names
     for (let i = 0; i < passed; i++) {
-        detailedReport.push(`• ✅ Test ${testCount}: Passed`);
+        const testName = testNames[i] || `Test ${testCount}`;
+        detailedReport.push(`• ✅ Test ${testCount}: ${testName}`);
         testCount++;
     }
     
-    // Add failed tests
-    for (let i = 0; i < failed; i++) {
-        detailedReport.push(`• ❌ Test ${testCount}: Failed`);
+    // Add failed tests with names
+    for (let i = passed; i < passed + failed; i++) {
+        const testName = testNames[i] || `Test ${testCount}`;
+        detailedReport.push(`• ❌ Test ${testCount}: ${testName}`);
         testCount++;
     }
     
-    // Add skipped tests
-    for (let i = 0; i < skipped; i++) {
-        detailedReport.push(`• 😴 Test ${testCount}: Skipped`);
+    // Add skipped tests with names
+    for (let i = passed + failed; i < passed + failed + skipped; i++) {
+        const testName = testNames[i] || `Test ${testCount}`;
+        detailedReport.push(`• 😴 Test ${testCount}: ${testName}`);
         testCount++;
     }
     
