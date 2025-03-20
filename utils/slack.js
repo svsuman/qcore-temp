@@ -74,6 +74,24 @@ function formatDuration(message) {
     return durationMatch ? durationMatch[1] : 'N/A';
 }
 
+function extractErrorDetails(message) {
+    // Look for timeout errors
+    const timeoutMatch = message.match(/"beforeAll" hook timeout of \d+ms exceeded\./);
+    if (timeoutMatch) {
+        return timeoutMatch[0];
+    }
+
+    // Look for assertion errors
+    const assertionMatch = message.match(/Error: expect\(.*?\).*?\n.*?Received:.*?/s);
+    if (assertionMatch) {
+        return assertionMatch[0];
+    }
+
+    // Look for other error patterns
+    const errorMatch = message.match(/Error Details:[\s\S]*?Command failed:[\s\S]*?(?=\n\s*\n|$)/i);
+    return errorMatch ? errorMatch[0].trim() : null;
+}
+
 async function sendToSlack(channels, message, options = {}) {
     const defaults = {
         username: 'Playwright Test Bot',
@@ -91,8 +109,7 @@ async function sendToSlack(channels, message, options = {}) {
     console.log('Parsed test results:', testResults);
 
     // Extract error details if present
-    const errorMatch = message.match(/Error Details:[\s\S]*?Command failed:[\s\S]*?(?=\n\s*\n|$)/i);
-    const errorDetails = errorMatch ? errorMatch[0].trim() : null;
+    const errorDetails = extractErrorDetails(message);
 
     const blocks = [
         {
@@ -115,7 +132,7 @@ async function sendToSlack(channels, message, options = {}) {
             text: {
                 type: "mrkdwn",
                 text: errorDetails ? 
-                    "❌ *Error Details:*\n```" + errorDetails + "```" :
+                    "❌ *Error Status:*\n```" + errorDetails + "```" :
                     "✅ *Error Status:* No errors found"
             }
         },
@@ -254,62 +271,119 @@ function formatDetailedReport(message) {
     const detailedReport = [];
     const { passed, failed, skipped } = parseTestResults(message);
     let testCount = 1;
-    
-    // Extract test names from the message
-    const testNames = lines
-        .filter(line => line.includes('test('))
+
+    console.log('Parsed test counts:', { passed, failed, skipped });
+
+    // Extract test information with their status
+    const testResults = lines
+        .filter(line => line.includes('[Chromium]') && line.includes('›'))
         .map(line => {
-            // Extract text between test(' and ', async
-            const match = line.match(/test\('([^']+)'/);
-            if (match) {
-                const testName = match[1];
-                // If includeTags is false, remove the tags from the test name
-                if (!config.localConfig.testCases.includeTags) {
-                    return testName.replace(/@\w+/g, '').trim();
-                }
-                return testName;
+            // Debug log the raw line
+            console.log('\nAnalyzing line:', line);
+
+            // Extract test name
+            const parts = line.split('›');
+            const testName = parts[parts.length - 1].split('(')[0].trim();
+
+            // Determine status with more detailed checks
+            let status;
+            const lineLC = line.toLowerCase();
+
+            // Debug log all status indicators
+            console.log('Status indicators:', {
+                hasCheckmark: line.includes('✓'),
+                hasCross: line.includes('✘'),
+                hasError: line.includes('Error:'),
+                isFailed: line.includes('failed')
+            });
+
+            // More comprehensive status detection
+            if (line.includes('✓') || lineLC.includes('passed') || line.includes('--- passed')) {
+                status = 'passed';
+            } else if (
+                line.includes('✘') || 
+                lineLC.includes('failed') || 
+                line.includes('--- failed') ||
+                lineLC.includes('error')
+            ) {
+                status = 'failed';
+            } else if (line.includes('○') || lineLC.includes('skipped') || line.includes('--- skipped')) {
+                status = 'skipped';
+            } else {
+                // If we can't determine status, check if it has timing (suggesting it ran)
+                const hasTimer = /\(\d+m?s\)/.test(line);
+                status = hasTimer ? 'passed' : 'skipped';
             }
-            // Try alternative pattern if first one fails
-            const altMatch = line.match(/test\(['"]([^'"]+)['"]/);
-            if (altMatch) {
-                const testName = altMatch[1];
-                // If includeTags is false, remove the tags from the test name
-                if (!config.localConfig.testCases.includeTags) {
-                    return testName.replace(/@\w+/g, '').trim();
-                }
-                return testName;
-            }
-            return null;
-        })
-        .filter(name => name !== null); // Remove any null values
-    
-    console.log('Extracted test names:', testNames); // Debug log
-    
-    // Add passed tests with names
-    for (let i = 0; i < passed; i++) {
-        const testName = testNames[i] || `Test ${testCount}`;
-        detailedReport.push(`• ✅ Test ${testCount}: ${testName}`);
+
+            console.log('Determined status for test:', { testName, status });
+            return { name: testName, status };
+        });
+
+    console.log('Initial test results:', testResults);
+
+    // Remove duplicates keeping the most significant status
+    const uniqueTests = new Map();
+    testResults.forEach(test => {
+        const currentTest = uniqueTests.get(test.name);
+        if (!currentTest) {
+            uniqueTests.set(test.name, test);
+        } else if (
+            (currentTest.status === 'skipped' && test.status !== 'skipped') ||
+            (currentTest.status === 'passed' && test.status === 'failed')
+        ) {
+            uniqueTests.set(test.name, test);
+        }
+    });
+
+    // Convert back to array and sort by status
+    const sortedTests = Array.from(uniqueTests.values()).sort((a, b) => {
+        const statusOrder = { passed: 0, failed: 1, skipped: 2 };
+        return statusOrder[a.status] - statusOrder[b.status];
+    });
+
+    console.log('Final sorted tests:', sortedTests);
+
+    // Generate detailed report
+    sortedTests.forEach(test => {
+        const emoji = test.status === 'passed' ? '✅' :
+                     test.status === 'failed' ? '❌' : '😴';
+        detailedReport.push(`• ${emoji} Test ${testCount}: ${test.name}`);
         testCount++;
-    }
-    
-    // Add failed tests with names
-    for (let i = passed; i < passed + failed; i++) {
-        const testName = testNames[i] || `Test ${testCount}`;
-        detailedReport.push(`• ❌ Test ${testCount}: ${testName}`);
-        testCount++;
-    }
-    
-    // Add skipped tests with names
-    for (let i = passed + failed; i < passed + failed + skipped; i++) {
-        const testName = testNames[i] || `Test ${testCount}`;
-        detailedReport.push(`• 😴 Test ${testCount}: ${testName}`);
-        testCount++;
-    }
-    
-    // Add extra newlines for spacing
+    });
+
     return '\n' + detailedReport.join('\n\n');
 }
+ 
 
 function formatReportLinks(message) {
     return '*\n• HTML Report:/playwright-report/index.html';
+}
+
+function determineTestStatus(line) {
+  const statusIndicators = {
+    hasCheckmark: line.includes('✓'),
+    hasCross: line.includes('✘'),
+    hasError: line.includes('Error:'),
+    isFailed: line.includes('failed')
+  };
+
+  const testName = line.match(/›\s([^(]+)/)?.[1]?.trim();
+  
+  if (!testName) return null;
+
+  return {
+    testName,
+    status: statusIndicators.hasCross || statusIndicators.hasError || statusIndicators.isFailed 
+      ? 'failed' 
+      : statusIndicators.hasCheckmark 
+        ? 'passed' 
+        : 'unknown'
+  };
+}
+
+function generateDetailedTestReport(tests) {
+  return tests.map(test => {
+    const icon = test.status === 'passed' ? ':white_check_mark:' : ':x:';
+    return `• ${icon} ${test.name}`;
+  }).join('\n');
 }
